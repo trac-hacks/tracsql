@@ -45,14 +45,18 @@ ${error}
 </py:when>
 <py:otherwise>
 <table cellpadding="2" cellspacing="0">
+<thead>
 <tr>
     <py:for each="col in cols"><th>${col}</th></py:for>
 </tr>
+</thead>
+<tbody>
 <py:for each="row in rows">
 <tr>
     <py:for each="col in row"><td>${col}</td></py:for>
 </tr>
 </py:for>
+</tbody>
 </table>
 </py:otherwise>
 </py:choose>

@@ -4,12 +4,17 @@ div.query table {
     border: 1px #ccc solid;
 }
 
-div.results table th {
+div.results table thead th {
     font-weight: bold;
     border-bottom: 1px #ccc solid;
-    padding: 3px ;
+    padding: 5px ;
 }
 
-div.results table td {
-    padding: 3px ;
+div.results table tbody td {
+    padding: 5px ;
+}
+
+div.results table tbody tr:hover {
+    font-weight: italic;
+    background: #ececec;
 }
