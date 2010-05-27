@@ -21,7 +21,14 @@
 <input type="hidden" name="action" value="" />
 <table cellpadding="3">
 <tr><td colspan="2">
+<py:choose test="error">
+<py:when>
+<textarea id="text" name="query" cols="80" rows="15" style="color: red;">${query}</textarea>
+</py:when>
+<py:otherwise>
 <textarea id="text" name="query" cols="80" rows="15">${query}</textarea>
+</py:otherwise>
+</py:choose>
 </td></tr>
 <tr><td align="left">
 <input type="submit" value="Submit" />&nbsp;

@@ -4,14 +4,27 @@ div.query table {
     border: 1px #ccc solid;
 }
 
+div.query textarea {
+    border: 1px #ccc solid;
+    font-family: monospace;·
+    font-size: 1.0em;
+    padding: 3px;
+}
+
+
 div.results table thead th {
     font-weight: bold;
     border-bottom: 1px #ccc solid;
-    padding: 5px ;
+    padding: 3px ;
+    padding-left: 5px;
+    padding-right: 5px;
 }
 
 div.results table tbody td {
-    padding: 5px ;
+    padding: 3px ;
+    padding-left: 5px;
+    padding-right: 5px;
+    vertical-align: top;
 }
 
 div.results table tbody tr:hover {
