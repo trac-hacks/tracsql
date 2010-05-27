@@ -101,6 +101,7 @@ class TracSqlPlugin(Component):
             sql = query
 
         format = {
+            'path' : lambda x: html.A(x, href=req.href.browser(x)),
             'rev' : lambda x: html.A(x, href=req.href.changeset(x)),
             'time' : lambda x: fmt_timestamp(x),
         }
@@ -108,6 +109,8 @@ class TracSqlPlugin(Component):
         if trac.__version__.startswith('0.12'):
             format['time'] = lambda x: fmt_timestamp(x/1000000.)
 
+        format['base_path'] = format['path']
+        format['base_rev'] = format['rev']
         format['changetime'] = format['time']
 
         if action == 'tables':
