@@ -1,0 +1,15 @@
+
+div.query table {
+    background: #ececec;
+    border: 1px #ccc solid;
+}
+
+div.results table th {
+    font-weight: bold;
+    border-bottom: 1px #ccc solid;
+    padding: 3px ;
+}
+
+div.results table td {
+    padding: 3px ;
+}

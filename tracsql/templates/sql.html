@@ -1,0 +1,71 @@
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:py="http://genshi.edgewall.org/"
+      xmlns:i18n="http://genshi.edgewall.org/i18n"
+      xmlns:xi="http://www.w3.org/2001/XInclude">
+  <xi:include href="layout.html" />
+  <head>
+      <title>SQL</title>
+  </head>
+
+<body>
+
+<div id="content" class="wiki">
+
+<h1>Query</h1>
+
+<div class="query">
+<form method="post" id="form">
+<input type="hidden" name="action" value="" />
+<table cellpadding="3">
+<tr><td colspan="2">
+<textarea id="text" name="query" cols="80" rows="15">${query}</textarea>
+</td></tr>
+<tr><td align="left">
+<input type="submit" value="Submit" />&nbsp;
+<input type="reset" value="Reset" />&nbsp;
+</td><td align="right">
+<input type="button" value="Show Tables"
+  onclick="javascript:$('[name=action]').val('tables'); $('#form').submit()" />&nbsp;
+</td></tr>
+</table>
+</form>
+</div>
+
+<br />
+
+<div class="results">
+
+<py:choose test="error">
+<py:when>
+<h1><font color="red">Error!</font></h1>
+${error}
+</py:when>
+<py:otherwise>
+<table cellpadding="2" cellspacing="0">
+<tr>
+    <py:for each="col in cols"><th>${col}</th></py:for>
+</tr>
+<py:for each="row in rows">
+<tr>
+    <py:for each="col in row"><td>${col}</td></py:for>
+</tr>
+</py:for>
+</table>
+</py:otherwise>
+</py:choose>
+
+</div>
+
+</div>
+
+<pre>
+db_type = ${db_type}
+db_path = ${db_path}
+</pre>
+
+</body>
+</html>
+
