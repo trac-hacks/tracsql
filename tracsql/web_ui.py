@@ -1,20 +1,12 @@
 
 # stdlib imports
-import datetime
 import re
-import string
 import time
-from math import floor, log
-from operator import itemgetter
 
 # trac imports
 import trac
 from trac.core import *
-from trac.mimeview import Mimeview
-from trac.perm import IPermissionRequestor
-from trac.util import get_reporter_id
-from trac.util.datefmt import pretty_timedelta, to_datetime
-from trac.util.html import html, Markup
+from trac.util.html import html
 from trac.web import IRequestHandler
 from trac.web.chrome import INavigationContributor, ITemplateProvider
 from trac.web.chrome import add_ctxtnav, add_stylesheet, add_script
