@@ -4,6 +4,13 @@ div.query table {
     border: 1px #ccc solid;
 }
 
+div.query input {
+    border: 1px #ccc solid;
+    padding: 3px;
+    font-size: 1.0em;
+    background: #fff;
+}
+
 div.query textarea {
     border: 1px #ccc solid;
     font-family: monospace;·

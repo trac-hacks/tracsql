@@ -113,21 +113,7 @@ class TracSqlPlugin(Component):
             pass
 
         sql = req.args.get('query', '')
-
-        format = {
-            'path' : lambda x: html.A(x, href=req.href.browser(x)),
-            'rev' : lambda x: html.A(x, href=req.href.changeset(x)),
-            'time' : lambda x: fmt_timestamp(x),
-        }
-
-        if trac.__version__.startswith('0.12'):
-            format['time'] = lambda x: fmt_timestamp(x/1000000.)
-
-        format['base_path'] = format['path']
-        format['base_rev'] = format['rev']
-        format['changetime'] = format['time']
-
-        default = lambda x: x
+        raw = req.args.get('raw', '')
 
         error = None
 
@@ -142,15 +128,32 @@ class TracSqlPlugin(Component):
         else:
             cols = rows = []
 
-        # FIXME: Optionally format the row values? e.g., "raw" output?
-        formats = [format.get(col, default) for col in cols]
-        for i, row in enumerate(rows):
-            rows[i] = [fmt(col) for fmt, col in zip(formats, row)]
+        if not raw:
+
+            format = {
+                'path' : lambda x: html.A(x, href=req.href.browser(x)),
+                'rev' : lambda x: html.A(x, href=req.href.changeset(x)),
+                'time' : lambda x: fmt_timestamp(x),
+            }
+
+            if trac.__version__.startswith('0.12'):
+                format['time'] = lambda x: fmt_timestamp(x/1000000.)
+
+            format['base_path'] = format['path']
+            format['base_rev'] = format['rev']
+            format['changetime'] = format['time']
+
+            default = lambda x: x
+
+            formats = [format.get(col, default) for col in cols]
+            for i, row in enumerate(rows):
+                rows[i] = [fmt(col) for fmt, col in zip(formats, row)]
 
         data['query'] = sql
         data['error'] = error
         data['cols'] = cols
         data['rows'] = rows
+        data['raw'] = raw
 
         return 'sql.html', data, None
 

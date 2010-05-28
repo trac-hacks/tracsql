@@ -25,6 +25,14 @@
 <tr><td align="left">
 <input type="submit" value="Submit" />&nbsp;
 <input type="reset" value="Reset" />&nbsp;
+<py:choose test="raw">
+<py:when>
+<input type="checkbox" name="raw" checked="checked" />Raw Output
+</py:when>
+<py:otherwise>
+<input type="checkbox" name="raw" />Raw Output
+</py:otherwise>
+</py:choose>
 </td></tr>
 </table>
 </form>
