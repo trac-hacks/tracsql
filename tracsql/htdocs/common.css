@@ -12,7 +12,7 @@ div.query textarea {
 }
 
 
-div.results table thead th {
+table.results thead th {
     font-weight: bold;
     border-bottom: 1px #ccc solid;
     padding: 3px ;
@@ -20,14 +20,14 @@ div.results table thead th {
     padding-right: 5px;
 }
 
-div.results table tbody td {
+table.results tbody td {
     padding: 3px ;
     padding-left: 5px;
     padding-right: 5px;
     vertical-align: top;
 }
 
-div.results table tbody tr:hover {
+table.results tbody tr:hover {
     font-weight: italic;
     background: #ececec;
 }

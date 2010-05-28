@@ -65,6 +65,8 @@ class TracSqlPlugin(Component):
     def process_request(self, req):
         req.perm.require('TRAC_ADMIN')
 
+        path = req.args.get('path', '')
+
         data = {}
 
         db = self.env.get_db_cnx()
@@ -72,33 +74,45 @@ class TracSqlPlugin(Component):
 
         db_str = self.env.config.get('trac', 'database')
         db_type, db_path = db_str.split(':', 1)
-        data['db_type'] = db_type
-        data['db_path'] = db_path
+        assert db_type in ('sqlite', 'mysql', 'postgres'), \
+                            'Unsupported database "%s"' % db_type
+        self.db_type = db_type
 
-        if db_type == 'mysql':
+        # Include trac wiki stylesheet
+        add_stylesheet(req, 'common/css/wiki.css')
+
+        # Include trac stats stylesheet
+        add_stylesheet(req, 'sql/common.css')
+
+        # Include javascript libraries
+        add_script(req, 'stats/jquery-1.4.2.min.js')
+
+        # Include context navigation links
+        add_ctxtnav(req, 'Query', req.href.sql())
+        add_ctxtnav(req, 'Schema', req.href.sql('schema'))
+
+        if path == '/':
+            result = self._process(req, cursor, data)
+            cursor.close()
+            return result
+
+        elif path == '/schema':
+            result = self._process_schema(req, cursor, data)
+            cursor.close()
+            return result
+
+        else:
+            cursor.close()
+            raise ValueError, "unknown path '%s'" % path
+
+    def _process(self, req, cursor, data):
+
+        if self.db_type == 'mysql':
             cursor.execute('set SQL_SELECT_LIMIT=1000')
         else:
             pass
 
-        query = req.args.get('query', '')
-        action = req.args.get('action', '')
-
-        if action == 'tables':
-            if db_type == 'mysql':
-                sql = 'show tables'
-            elif db_type == 'sqlite':
-                sql = 'SELECT name FROM sqlite_master WHERE type = "table"'
-            else:
-                assert False, "Unsupported db_type: %s" % db_type
-        elif action == 'database':
-            if db_type == 'mysql':
-                sql = 'show databases'
-            elif db_type == 'sqlite':
-                sql = 'PRAGMA database_list'
-            else:
-                assert False, "Unsupported db_type: %s" % db_type
-        else:
-            sql = query
+        sql = req.args.get('query', '')
 
         format = {
             'path' : lambda x: html.A(x, href=req.href.browser(x)),
@@ -112,15 +126,6 @@ class TracSqlPlugin(Component):
         format['base_path'] = format['path']
         format['base_rev'] = format['rev']
         format['changetime'] = format['time']
-
-        if action == 'tables':
-            if db_type == 'mysql':
-                describe = 'describe %s'
-            elif db_type == 'sqlite':
-                describe = 'PRAGMA table_info("%s")'
-            else:
-                assert False, "Unsupported db_type: %s" % db_type
-            format['name'] = lambda x: html.A(x, href=req.href.sql(query=describe % x))
 
         default = lambda x: x
 
@@ -142,26 +147,60 @@ class TracSqlPlugin(Component):
         for i, row in enumerate(rows):
             rows[i] = [fmt(col) for fmt, col in zip(formats, row)]
 
-        data['query'] = query
+        data['query'] = sql
         data['error'] = error
         data['cols'] = cols
         data['rows'] = rows
 
-        cursor.close()
-
-        # Include trac wiki stylesheet
-        add_stylesheet(req, 'common/css/wiki.css')
-
-        # Include trac stats stylesheet
-        add_stylesheet(req, 'sql/common.css')
-
-        # Include javascript libraries
-        add_script(req, 'stats/jquery-1.4.2.min.js')
-
-        # Include context navigation links
-        add_ctxtnav(req, 'Query', req.href.sql())
-        # FIXME: add_ctxtnav(req, 'Schema', req.href.sql('schema'))
-
         return 'sql.html', data, None
+
+    def _process_schema(self, req, cursor, data):
+
+        if self.db_type == 'mysql':
+            sql = 'show tables'
+        elif self.db_type == 'sqlite':
+            sql = 'SELECT name FROM sqlite_master WHERE type = "table"'
+        else:
+            assert False, "Unsupported db_type: %s" % self.db_type
+
+        cursor.execute(sql)
+        rows = cursor.fetchall()
+
+        table = req.args.get('table', '')
+        valid = False
+
+        tables = []
+        for x, in sorted(rows):
+            if x == table:
+                valid = True
+                tables.append(html.B(x))
+            else:
+                tables.append(html.A(x, href=req.href.sql('schema', table=x)))
+
+        if table and valid:
+            if self.db_type == 'mysql':
+                sql = 'describe %s' % table
+            elif self.db_type == 'sqlite':
+                sql = 'PRAGMA table_info("%s")' % table
+            else:
+                assert False, "Unsupported db_type: %s" % self.db_type
+
+            cursor.execute(sql)
+            cols = map(lambda x: x[0], cursor.description)
+            rows = cursor.fetchall()
+
+            cursor.execute("select count(*) from %s" % table)
+            count, = cursor.fetchall()[0]
+        else:
+            cols = rows = []
+            count = 0
+
+        data['tables'] = tables
+        data['cols'] = cols
+        data['rows'] = rows
+        data['table'] = table
+        data['count'] = count
+
+        return 'schema.html', data, None
 
 

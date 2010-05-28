@@ -7,37 +7,27 @@
       xmlns:xi="http://www.w3.org/2001/XInclude">
   <xi:include href="layout.html" />
   <head>
-      <title>SQL</title>
+      <title>Schema</title>
   </head>
 
 <body>
 
 <div id="content" class="wiki">
 
-<h1>Query</h1>
+<h1>Schema</h1>
 
-<div class="query">
-<form method="post" id="form">
-<table cellpadding="3">
-<tr><td colspan="2">
-<textarea id="text" name="query" cols="80" rows="15">${query}</textarea>
-</td></tr>
-<tr><td align="left">
-<input type="submit" value="Submit" />&nbsp;
-<input type="reset" value="Reset" />&nbsp;
-</td></tr>
-</table>
-</form>
-</div>
+<table>
+<tr>
+<td valign="top">
+<py:for each="table in tables">${table}<br /></py:for>
+</td>
 
-<br />
+<td valign="top">
 
-<py:choose test="error">
-<py:when>
-<h1><font color="red">Error!</font></h1>
-${error}
-</py:when>
-<py:otherwise>
+<py:if test="table">
+<b>${table}</b> has <b>${count}</b> rows.<br /><br />
+</py:if>
+
 <table class="results" cellpadding="2" cellspacing="0">
 <thead>
 <tr>
@@ -52,11 +42,14 @@ ${error}
 </py:for>
 </tbody>
 </table>
-</py:otherwise>
-</py:choose>
+
+</td>
+</tr>
+</table>
 
 </div>
 
 </body>
+
 </html>
 
