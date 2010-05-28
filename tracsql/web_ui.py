@@ -107,18 +107,20 @@ class TracSqlPlugin(Component):
         sql = req.args.get('query', '')
         raw = req.args.get('raw', '')
 
+        cols = rows = []
         error = None
 
-        if sql.strip():
+        if re.search('.*delete|drop|insert|replace|set|update.*', sql,
+                     re.IGNORECASE):
+            error = "Query must be read-only!"
+
+        elif sql.strip():
             try:
                 cursor.execute(sql)
                 cols = map(lambda x: x[0], cursor.description)
                 rows = cursor.fetchall()[:1000]
             except BaseException, e:
                 error = e.message
-                cols = rows = []
-        else:
-            cols = rows = []
 
         if not raw:
 
@@ -195,6 +197,9 @@ class TracSqlPlugin(Component):
         data['rows'] = rows
         data['table'] = table
         data['count'] = count
+
+        # FIXME: Add index list?
+        # FIXME: Add foreign key list?
 
         return 'schema.html', data, None
 
