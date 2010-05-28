@@ -1,25 +1,25 @@
 =============
-   tracsql
+   TracSQL
 =============
 
 
 Description
 ===========
 
-The 'tracsql' project is a plugin for the 'trac' project management tool.
+The TracSQL project is a plugin for the 'trac' project management tool.
 
-The 'tracsql' plugin adds a "SQL" tab to the trac project.  Inside this
-tab SQL queries can be performed on the project database.
+A "SQL" tab is added to the trac project.  Inside this tab SQL queries can be
+performed on the project database.
 
-The 'tracsql' plugin supports Trac installations with SQLite, MySQL, and
-PostgreSQL database backends (although the queries will need to be written
-differently according to which SQL database is being used).
+This plugin supports Trac installations with SQLite, MySQL, and PostgreSQL
+database backends (although the queries will need to be written differently
+according to which SQL database is being used).
 
 
 Installation
 ============
 
-The 'tracsql' plugin can be installed using standard::
+The TracSQL plugin can be installed using standard::
 
     python setup.py install
 
