@@ -108,6 +108,7 @@ class TracSqlPlugin(Component):
         raw = req.args.get('raw', '')
 
         cols = rows = []
+        took = 0
         error = None
 
         if re.search('.*delete|drop|insert|replace|set|update.*', sql,
@@ -116,9 +117,11 @@ class TracSqlPlugin(Component):
 
         elif sql.strip():
             try:
+                start = time.time()
                 cursor.execute(sql)
                 cols = map(lambda x: x[0], cursor.description)
                 rows = cursor.fetchall()[:1000]
+                took = '%.3f' % (time.time() - start)
             except BaseException, e:
                 error = e.message
 
@@ -147,6 +150,7 @@ class TracSqlPlugin(Component):
         data['error'] = error
         data['cols'] = cols
         data['rows'] = rows
+        data['took'] = took
         data['raw'] = raw
 
         return 'sql.html', data, None

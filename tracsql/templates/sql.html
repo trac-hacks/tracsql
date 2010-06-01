@@ -33,6 +33,10 @@
 <input type="checkbox" name="raw" />Raw Output
 </py:otherwise>
 </py:choose>
+</td><td align="right">
+<py:if test="not error">
+<b>${len(rows)}</b> results (<b>${took}</b> seconds)
+</py:if>
 </td></tr>
 </table>
 </form>
