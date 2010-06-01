@@ -9,9 +9,13 @@ Description
 The TracSQL project is a plugin for the Trac project management tool.
 
 A "SQL" tab is added to the Trac project.  Inside this tab, the plugin
-supports interacting with the project database.  Some features include:
+supports interacting with the project database.
+
+Some features include:
 
 * perform queries on the project database
+* view results as raw or formatted (and hyper-linked) output
+* export result set in CSV
 * browse the database schema
 
 This plugin supports Trac installations with SQLite, MySQL, and PostgreSQL
