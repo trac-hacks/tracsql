@@ -130,6 +130,8 @@ class TracSqlPlugin(Component):
             format = {
                 'path' : lambda x: html.A(x, href=req.href.browser(x)),
                 'rev' : lambda x: html.A(x, href=req.href.changeset(x)),
+                'ticket' : lambda x: html.A(x, href=req.href.ticket(x)),
+                'query' : lambda x: html.FONT(x, face="monospace"),
                 'time' : lambda x: fmt_timestamp(x),
             }
 
@@ -139,6 +141,30 @@ class TracSqlPlugin(Component):
             format['base_path'] = format['path']
             format['base_rev'] = format['rev']
             format['changetime'] = format['time']
+
+            def format_wiki_text(text):
+                from trac.mimeview.api import Mimeview
+                mimeview = Mimeview(self.env)
+                mimetype = 'text/x-trac-wiki'
+                return mimeview.render(req, mimetype, text)
+
+            if re.search('.*from wiki.*', sql, re.IGNORECASE|re.MULTILINE):
+                format['name'] = lambda x: html.A(x, href=req.href.wiki(x))
+                format['text'] = format_wiki_text
+            elif re.search('.*from ticket.*', sql, re.IGNORECASE|re.MULTILINE):
+                format['id'] = lambda x: html.A(x, href=req.href.ticket(x))
+                format['component'] = lambda x: html.A(x, href=req.href.query(component=x))
+                format['severity'] = lambda x: html.A(x, href=req.href.query(severity=x))
+                format['type'] = lambda x: html.A(x, href=req.href.query(type=x))
+                format['milestone'] = lambda x: html.A(x, href=req.href.query(milestone=x))
+                format['version'] = lambda x: html.A(x, href=req.href.query(version=x))
+                format['status'] = lambda x: html.A(x, href=req.href.query(status=x))
+                format['owner'] = lambda x: html.A(x, href=req.href.query(owner=x))
+                format['reporter'] = lambda x: html.A(x, href=req.href.query(reporter=x))
+                format['priority'] = lambda x: html.A(x, href=req.href.query(priority=x))
+                format['resolution'] = lambda x: html.A(x, href=req.href.query(resolution=x))
+            elif re.search('.*from report.*', sql, re.IGNORECASE|re.MULTILINE):
+                format['id'] = lambda x: html.A(x, href=req.href.report(x))
 
             default = lambda x: x
 
