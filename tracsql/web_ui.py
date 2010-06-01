@@ -106,6 +106,7 @@ class TracSqlPlugin(Component):
 
         sql = req.args.get('query', '')
         raw = req.args.get('raw', '')
+        csv = req.args.get('csv', '')
 
         cols = rows = []
         took = 0
@@ -125,13 +126,30 @@ class TracSqlPlugin(Component):
             except BaseException, e:
                 error = e.message
 
+        if csv:
+            text = []
+            for col in cols:
+                text.append('%s,' % col)
+            text.append('\n')
+            for row in rows:
+                for cell in row:
+                    text.append("%s," % cell)
+                text.append('\n')
+            text = str(''.join(text))
+            req.send_response(200)
+            req.send_header('Content-Type', 'text/csv')
+            req.send_header('Content-Length', str(len(text)))
+            req.end_headers()
+            req.write(text)
+            return
+
         if not raw:
 
             format = {
                 'path' : lambda x: html.A(x, href=req.href.browser(x)),
                 'rev' : lambda x: html.A(x, href=req.href.changeset(x)),
                 'ticket' : lambda x: html.A(x, href=req.href.ticket(x)),
-                'query' : lambda x: html.FONT(x, face="monospace"),
+                'query' : lambda x: html.PRE(x, style="padding: 0; margin: 0;"),
                 'time' : lambda x: fmt_timestamp(x),
             }
 
