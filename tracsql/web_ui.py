@@ -205,6 +205,8 @@ class TracSqlPlugin(Component):
             sql = 'show tables'
         elif self.db_type == 'sqlite':
             sql = 'SELECT name FROM sqlite_master WHERE type = "table"'
+        elif self.db_type == 'postgres':
+            sql = "select table_name from information_schema.tables where table_schema = 'public'"
         else:
             assert False, "Unsupported db_type: %s" % self.db_type
 
@@ -227,6 +229,18 @@ class TracSqlPlugin(Component):
                 sql = 'describe %s' % table
             elif self.db_type == 'sqlite':
                 sql = 'PRAGMA table_info("%s")' % table
+            elif self.db_type == 'postgres':
+                sql = """
+                select
+                  ordinal_position,
+                  column_name,
+                  data_type,
+                  is_nullable,
+                  column_default
+                from information_schema.columns
+                where table_schema = 'public' and
+                      table_name = '%s'
+                """ % table
             else:
                 assert False, "Unsupported db_type: %s" % self.db_type
 
