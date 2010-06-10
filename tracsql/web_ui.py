@@ -125,6 +125,8 @@ class TracSqlPlugin(Component):
                 took = '%.3f' % (time.time() - start)
             except BaseException, e:
                 error = e.message
+            except e:
+                error = e
 
         if csv:
             text = []
