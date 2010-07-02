@@ -16,22 +16,25 @@
 
 <h1>Schema</h1>
 
-<table>
+<table cellpadding="5" cellspacing="5">
 <tr>
-<td valign="top">
+<td valign="top" style="border-right: 1px #ccc solid;">
 <py:for each="table in tables">${table}<br /></py:for>
 </td>
 
 <td valign="top">
 
 <py:if test="table">
-<b>${table}</b> has <b>${count}</b> rows.<br /><br />
+<b>${table}</b> has <b>${count}</b> rows.<br />
 </py:if>
 
+<py:if test="cols">
+<p><u>COLUMNS</u></p>
+<div style="padding-left: 10px;">
 <table class="results" cellpadding="2" cellspacing="0">
 <thead>
 <tr>
-    <py:for each="col in cols"><th>${col}</th></py:for>
+    <py:for each="col in cols"><th width="75">${col}</th></py:for>
 </tr>
 </thead>
 <tbody>
@@ -42,6 +45,17 @@
 </py:for>
 </tbody>
 </table>
+</div>
+</py:if>
+
+<py:if test="indexes">
+<p><u>INDEXES</u></p>
+<div style="padding-left: 10px;">
+<py:for each="index in indexes">
+<p><b>${index[0]}</b><br />${index[1]}</p>
+</py:for>
+</div>
+</py:if>
 
 </td>
 </tr>

@@ -227,14 +227,24 @@ class TracSqlPlugin(Component):
                 tables.append(html.A(x, href=req.href.sql('schema', table=x)))
 
         if table and valid:
+            cols = ["name", "type", "nullable", "default"]
             if self.db_type == 'mysql':
                 sql = 'describe %s' % table
+                cursor.execute(sql)
+                results = cursor.fetchall()
+                rows = []
+                for field, type, null, key, default, extra in results:
+                    rows.append((field, type, null, default))
             elif self.db_type == 'sqlite':
                 sql = 'PRAGMA table_info("%s")' % table
+                cursor.execute(sql)
+                results = cursor.fetchall()
+                rows = []
+                for cid, name, type, notnull, dflt_value, pk in results:
+                    rows.append((name, type, notnull, dflt_value))
             elif self.db_type == 'postgres':
                 sql = """
                 select
-                  ordinal_position,
                   column_name,
                   data_type,
                   is_nullable,
@@ -243,26 +253,61 @@ class TracSqlPlugin(Component):
                 where table_schema = 'public' and
                       table_name = '%s'
                 """ % table
+                cursor.execute(sql)
+                rows = cursor.fetchall()
             else:
                 assert False, "Unsupported db_type: %s" % self.db_type
 
-            cursor.execute(sql)
-            cols = map(lambda x: x[0], cursor.description)
-            rows = cursor.fetchall()
 
             cursor.execute("select count(*) from %s" % table)
             count, = cursor.fetchall()[0]
+
+            if self.db_type == 'mysql':
+                sql = """
+                select
+                    index_name,
+                    group_concat(column_name
+                                 order by seq_in_index
+                                 separator ", ")
+                from information_schema.statistics
+                where table_name = '%s'
+                group by index_name
+                """ % table
+                cursor.execute(sql)
+                indexes = cursor.fetchall()
+            elif self.db_type == 'sqlite':
+                sql = """
+                select name
+                from sqlite_master
+                where tbl_name = '%s'
+                  and type = 'index'
+                """ % table
+                cursor.execute(sql)
+                results = cursor.fetchall()
+                indexes = []
+                for index, in results:
+                    cursor.execute("PRAGMA index_info('%s')" % index)
+                    indexes.append((index, ", ".join(name for _, _, name in
+                                                     cursor.fetchall())))
+            elif self.db_type == 'postgres':
+                sql = "select indexname, indexdef from pg_indexes where tablename = '%s'" % table
+                cursor.execute(sql)
+                indexes = cursor.fetchall()
+            else:
+                assert False, "Unsupported db_type: %s" % self.db_type
+
         else:
             cols = rows = []
             count = 0
+            indexes = []
 
         data['tables'] = tables
+        data['table'] = table
         data['cols'] = cols
         data['rows'] = rows
-        data['table'] = table
         data['count'] = count
+        data['indexes'] = indexes
 
-        # FIXME: Add index list?
         # FIXME: Add foreign key list?
 
         return 'schema.html', data, None
