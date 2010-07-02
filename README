@@ -16,7 +16,7 @@ Some features include:
 * perform queries on the project database
 * view results as raw or formatted (and hyper-linked) output
 * export result set in CSV
-* browse the database schema
+* browse the database schema (including table and index information)
 
 This plugin supports Trac installations with SQLite, MySQL, and PostgreSQL
 database backends (although the queries will need to be written differently

@@ -3,7 +3,7 @@
 from setuptools import setup, find_packages
 
 PACKAGE = 'TracSQL'
-VERSION = '0.1'
+VERSION = '0.2'
 
 setup(
     name=PACKAGE, version=VERSION,
