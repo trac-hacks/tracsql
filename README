@@ -34,10 +34,10 @@ The TracSQL plugin can be installed using standard::
 Configuration
 =============
 
-It is configured in the trac.ini file by enabling and configuring::
+It is configured in the ``trac.ini`` file by enabling and configuring::
 
     [components]
     tracsql.* = enabled
 
-The TRAC_ADMIN permission is used to control access to the query pages.
+The ``TRAC_ADMIN`` permission is used to control access to the query pages.
 
