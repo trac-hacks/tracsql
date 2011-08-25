@@ -1,14 +1,22 @@
 #!/usr/bin/env python
 
+import os.path
 from setuptools import setup, find_packages
 
-PACKAGE = 'TracSQL'
-VERSION = '0.2'
+# Utility function to read the README file.
+def read(fname):
+    return open(os.path.join(os.path.dirname(__file__), fname)).read()
 
 setup(
-    name=PACKAGE, version=VERSION,
-    description="A plugin for querying the project database",
-    packages=find_packages(exclude=['ez_setup', '*.tests*']),
+    name = 'TracSQL',
+    version = '0.2',
+    description = "A Trac plugin for querying the project database",
+    long_description = read('README'),
+    author = "John Benediktsson",
+    author_email = 'mrjbq7@gmail.com',
+    url = "http://github.com/mrjbq7/tracsql",
+    download_url = "http://github.com/mrjbq7/tracsql/zipball/master#egg=TracSQL-0.2",
+    packages = ['tracsql'],
     package_data={
         'tracsql': [
             'htdocs/*.css',
@@ -22,6 +30,7 @@ setup(
         'trac.plugins': [
             'tracsql.web_ui = tracsql.web_ui',
         ]
-    }
+    },
+    dependency_links = ['http://github.com/mrjbq7/tracsql/zipball/master#egg=TracSQL-0.2']
 )
 
