@@ -6,6 +6,7 @@ import time
 # trac imports
 import trac
 from trac.core import *
+from trac.db.api import DatabaseManager
 from trac.util.html import html
 from trac.web import IRequestHandler
 from trac.web.chrome import INavigationContributor, ITemplateProvider
@@ -54,6 +55,24 @@ class TracSqlPlugin(Component):
             req.args['path'] = path or '/'
             return True
 
+    def get_db_cnx(self):
+        """
+        Load the database, either user-specified or the project database.
+        """
+        db_str = self.env.config.get('tracsql', 'database', '')
+
+        if db_str:
+            class ExternalDatabaseManager(DatabaseManager):
+                connection_uri = db_str
+            db_mgr = ExternalDatabaseManager(self.env)
+            db = db_mgr.get_connection()
+
+        else:
+            db_str = self.env.config.get('trac', 'database')
+            db = self.env.get_db_cnx()
+
+        return db, db_str
+
     def process_request(self, req):
         req.perm.require('TRAC_ADMIN')
 
@@ -61,10 +80,8 @@ class TracSqlPlugin(Component):
 
         data = {}
 
-        db = self.env.get_db_cnx()
+        db, db_str = self.get_db_cnx()
         cursor = db.cursor()
-
-        db_str = self.env.config.get('trac', 'database')
         db_type, db_path = db_str.split(':', 1)
         assert db_type in ('sqlite', 'mysql', 'postgres'), \
                             'Unsupported database "%s"' % db_type
