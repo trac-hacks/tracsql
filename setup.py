@@ -9,13 +9,13 @@ def read(fname):
 
 setup(
     name = 'TracSQL',
-    version = '0.2',
+    version = '0.3',
     description = "A Trac plugin for querying the project database",
     long_description = read('README'),
     author = "John Benediktsson",
     author_email = 'mrjbq7@gmail.com',
     url = "http://github.com/mrjbq7/tracsql",
-    download_url = "http://github.com/mrjbq7/tracsql/zipball/master#egg=TracSQL-0.2",
+    download_url = "http://github.com/mrjbq7/tracsql/zipball/master#egg=TracSQL-0.3",
     packages = ['tracsql'],
     package_data={
         'tracsql': [
@@ -31,6 +31,6 @@ setup(
             'tracsql.web_ui = tracsql.web_ui',
         ]
     },
-    dependency_links = ['http://github.com/mrjbq7/tracsql/zipball/master#egg=TracSQL-0.2']
+    dependency_links = ['http://github.com/mrjbq7/tracsql/zipball/master#egg=TracSQL-0.3']
 )
 
