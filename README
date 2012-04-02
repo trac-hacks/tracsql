@@ -28,7 +28,7 @@ Installation
 
 The TracSQL plugin can be installed using standard::
 
-    $ easy_install tracstats
+    $ easy_install tracsql
 
 Or, grab the sources and build using::
 
