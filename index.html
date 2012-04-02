@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="TracSQL : Plugin to perform SQL queries on the project database for Trac." />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>TracSQL</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/mrjbq7/tracsql">Fork Me on GitHub</a>
+
+          <h1 id="project_title">TracSQL</h1>
+          <h2 id="project_tagline">Plugin to perform SQL queries on the project database for Trac.</h2>
+
+          <section id="downloads">
+            <a class="zip_download_link" href="https://github.com/mrjbq7/tracsql/zipball/master">Download this project as a .zip file</a>
+            <a class="tar_download_link" href="https://github.com/mrjbq7/tracsql/tarball/master">Download this project as a tar.gz file</a>
+          </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h1>TracSQL</h1>
+
+<p>The TracSQL project is a plugin for the Trac project management tool.</p>
+
+<p>A "SQL" tab is added to the Trac project.  Inside this tab, the plugin
+supports interacting with the project database.</p>
+
+<p>Some features include:</p>
+
+<ul>
+<li>perform queries on the project database</li>
+<li>view results as raw or formatted (and hyper-linked) output</li>
+<li>export result set in CSV</li>
+<li>browse the database schema (including table and index information)</li>
+</ul><p>This plugin supports Trac installations with SQLite, MySQL, and PostgreSQL
+database backends (although the queries will need to be written differently
+according to which SQL database is being used).</p>
+
+<h2>Installation</h2>
+
+<p>The TracSQL plugin can be installed using standard:</p>
+
+<pre><code>$ easy_install tracsql
+</code></pre>
+
+<p>Or, grab the sources and build using:</p>
+
+<pre><code>python setup.py install
+</code></pre>
+
+<h2>Configuration</h2>
+
+<p>It is configured in the <code>trac.ini</code> file by enabling and configuring:</p>
+
+<div class="highlight">
+<pre><span class="k">[components]</span>
+<span class="na">tracsql.*</span> <span class="o">=</span> <span class="s">enabled</span>
+</pre>
+</div>
+
+
+<p>The <code>TRAC_ADMIN</code> permission is used to control access to the query pages.</p>
+
+<p>By default, the TracSQL plugin connects to the project database.  To use an
+external database, set the <code>database</code> parameter in the <code>tracsql</code> section
+of the <code>trac.ini</code> file to a valid database connection string:</p>
+
+<div class="highlight">
+<pre><span class="k">[tracsql]</span>
+<span class="na">database</span> <span class="o">=</span> <span class="s">sqlite:db/external.db</span>
+</pre>
+</div>
+
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">TracSQL maintained by <a href="https://github.com/mrjbq7">mrjbq7</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
