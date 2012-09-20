@@ -49,6 +49,6 @@ of the ``trac.ini`` file to a valid database connection string:
 
 Some screensots, showing a few of the features:
 
-![SQL Query](raw.github.com/mrjbq7/tracsql/master/docs/sql-query.png)
+![SQL Query](tracsql/master/docs/sql-query.png)
 
-![SQL Schema](raw.github.com/mrjbq7/tracsql/master/docs/sql-schema.png)
+![SQL Schema](tracsql/master/docs/sql-schema.png)
