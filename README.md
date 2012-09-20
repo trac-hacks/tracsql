@@ -13,7 +13,7 @@ Some features include:
 * browse the database schema (including table and index information)
 
 This plugin supports Trac installations with **SQLite**, **MySQL**, and
-**PostgreSQL** database backends (although the queries will need to be
+**PostgreSQL** database backends (although your raw queries may need to be
 written differently according to which SQL database is being used).
 
 
