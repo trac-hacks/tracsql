@@ -11,7 +11,7 @@ setup(
     name = 'TracSQL',
     version = '0.3',
     description = "A Trac plugin for querying the project database",
-    long_description = read('README'),
+    long_description = read('README.md'),
     author = "John Benediktsson",
     author_email = 'mrjbq7@gmail.com',
     url = "http://github.com/mrjbq7/tracsql",
