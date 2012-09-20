@@ -16,15 +16,15 @@
     <!-- HEADER -->
     <div id="header_wrap" class="outer">
         <header class="inner">
-          <a id="forkme_banner" href="https://github.com/mrjbq7/tracsql">Fork Me on GitHub</a>
+          <a id="forkme_banner" href="https://github.com/mrjbq7/tracsql">View on GitHub</a>
 
           <h1 id="project_title">TracSQL</h1>
           <h2 id="project_tagline">Plugin to perform SQL queries on the project database for Trac.</h2>
 
-          <section id="downloads">
-            <a class="zip_download_link" href="https://github.com/mrjbq7/tracsql/zipball/master">Download this project as a .zip file</a>
-            <a class="tar_download_link" href="https://github.com/mrjbq7/tracsql/tarball/master">Download this project as a tar.gz file</a>
-          </section>
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/mrjbq7/tracsql/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/mrjbq7/tracsql/tarball/master">Download this project as a tar.gz file</a>
+            </section>
         </header>
     </div>
 
@@ -45,9 +45,9 @@ supports interacting with the project database.</p>
 <li>view results as raw or formatted (and hyper-linked) output</li>
 <li>export result set in CSV</li>
 <li>browse the database schema (including table and index information)</li>
-</ul><p>This plugin supports Trac installations with SQLite, MySQL, and PostgreSQL
-database backends (although the queries will need to be written differently
-according to which SQL database is being used).</p>
+</ul><p>This plugin supports Trac installations with <strong>SQLite</strong>, <strong>MySQL</strong>, and
+<strong>PostgreSQL</strong> database backends (although your raw queries may need to be
+written differently according to which SQL database is being used).</p>
 
 <h2>Installation</h2>
 
@@ -65,12 +65,9 @@ according to which SQL database is being used).</p>
 
 <p>It is configured in the <code>trac.ini</code> file by enabling and configuring:</p>
 
-<div class="highlight">
-<pre><span class="k">[components]</span>
+<div class="highlight"><pre><span class="k">[components]</span>
 <span class="na">tracsql.*</span> <span class="o">=</span> <span class="s">enabled</span>
-</pre>
-</div>
-
+</pre></div>
 
 <p>The <code>TRAC_ADMIN</code> permission is used to control access to the query pages.</p>
 
@@ -78,12 +75,17 @@ according to which SQL database is being used).</p>
 external database, set the <code>database</code> parameter in the <code>tracsql</code> section
 of the <code>trac.ini</code> file to a valid database connection string:</p>
 
-<div class="highlight">
-<pre><span class="k">[tracsql]</span>
+<div class="highlight"><pre><span class="k">[tracsql]</span>
 <span class="na">database</span> <span class="o">=</span> <span class="s">sqlite:db/external.db</span>
-</pre>
-</div>
+</pre></div>
 
+<h1>Examples</h1>
+
+<p>Some screensots, showing a few of the features:</p>
+
+<p><img src="http://raw.github.com/mrjbq7/tracsql/master/docs/sql-query.png" alt="SQL Query"></p>
+
+<p><img src="http://raw.github.com/mrjbq7/tracsql/master/docs/sql-schema.png" alt="SQL Schema"></p>
       </section>
     </div>
 
