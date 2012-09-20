@@ -12,9 +12,9 @@ Some features include:
 * export result set in CSV
 * browse the database schema (including table and index information)
 
-This plugin supports Trac installations with SQLite, MySQL, and PostgreSQL
-database backends (although the queries will need to be written differently
-according to which SQL database is being used).
+This plugin supports Trac installations with **SQLite**, **MySQL**, and
+**PostgreSQL** database backends (although the queries will need to be
+written differently according to which SQL database is being used).
 
 
 # Installation
