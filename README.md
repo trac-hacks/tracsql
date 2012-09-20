@@ -21,19 +21,24 @@ written differently according to which SQL database is being used).
 
 The TracSQL plugin can be installed using standard:
 
-    $ easy_install tracsql
+```
+$ easy_install tracsql
+```
 
 Or, grab the sources and build using:
 
-    $ python setup.py install
-
+```
+$ python setup.py install
+```
 
 # Configuration
 
 It is configured in the ``trac.ini`` file by enabling and configuring:
 
-    [components]
-    tracsql.* = enabled
+```ini
+[components]
+tracsql.* = enabled
+```
 
 The ``TRAC_ADMIN`` permission is used to control access to the query pages.
 
@@ -41,9 +46,10 @@ By default, the TracSQL plugin connects to the project database.  To use an
 external database, set the ``database`` parameter in the ``tracsql`` section
 of the ``trac.ini`` file to a valid database connection string:
 
-    [tracsql]
-    database = sqlite:db/external.db
-
+```ini
+[tracsql]
+database = sqlite:db/external.db
+```
 
 # Examples
 
