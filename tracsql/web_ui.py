@@ -172,7 +172,7 @@ class TracSqlPlugin(Component):
                 'time' : lambda x: fmt_timestamp(x),
             }
 
-            if trac.__version__.startswith('0.12'):
+            if trac.__version__ >= '0.12':
                 format['time'] = lambda x: fmt_timestamp(x/1000000.)
 
             format['base_path'] = format['path']
