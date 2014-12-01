@@ -93,9 +93,6 @@ class TracSqlPlugin(Component):
         # Include trac stats stylesheet
         add_stylesheet(req, 'sql/common.css')
 
-        # Include javascript libraries
-        add_script(req, 'stats/jquery-1.6.3.min.js')
-
         # Include context navigation links
         add_ctxtnav(req, 'Query', req.href.sql())
         add_ctxtnav(req, 'Schema', req.href.sql('schema'))
