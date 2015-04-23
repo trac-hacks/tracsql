@@ -2,6 +2,7 @@
 # stdlib imports
 import re
 import time
+from contextlib import contextmanager
 
 # trac imports
 import trac
@@ -20,6 +21,21 @@ def fmt_timestamp(seconds):
     text.append(time.strftime('%m/%d/%y  %H:%M:%S', localtime))
     text.append('.%03d' % millis)
     return "".join(text)
+
+
+# In version 1.0, support for a better database API was added.
+# This provides a backwards compatible way to perform queries
+# on older versions of Trac.
+@contextmanager
+def old_db_transaction(db):
+    try:
+        yield db
+        try:
+            db.commit()
+        except:
+            db.rollback()
+    finally:
+        db.close()
 
 
 class TracSqlPlugin(Component):
@@ -66,12 +82,18 @@ class TracSqlPlugin(Component):
                 connection_uri = db_str
             db_mgr = ExternalDatabaseManager(self.env)
             db = db_mgr.get_connection()
+            db_transaction = old_db_transaction(db)
 
         else:
             db_str = self.env.config.get('trac', 'database')
-            db = self.env.get_db_cnx()
 
-        return db, db_str
+            if hasattr(self.env, 'db_transaction'):
+                db_transaction = self.env.db_transaction
+            else:
+                db = self.env.get_db_cnx()
+                db_transaction = old_db_transaction(db)
+
+        return db_transaction, db_str
 
     def process_request(self, req):
         req.perm.require('TRAC_ADMIN')
@@ -80,8 +102,7 @@ class TracSqlPlugin(Component):
 
         data = {}
 
-        db, db_str = self.get_db_cnx()
-        cursor = db.cursor()
+        db_transaction, db_str = self.get_db_cnx()
         db_type, db_path = db_str.split(':', 1)
         assert db_type in ('sqlite', 'mysql', 'postgres'), \
                             'Unsupported database "%s"' % db_type
@@ -97,19 +118,19 @@ class TracSqlPlugin(Component):
         add_ctxtnav(req, 'Query', req.href.sql())
         add_ctxtnav(req, 'Schema', req.href.sql('schema'))
 
-        if path == '/':
-            result = self._process(req, cursor, data)
-            cursor.close()
-            return result
+        with db_transaction as db:
+            cursor = db.cursor()
 
-        elif path == '/schema':
-            result = self._process_schema(req, cursor, data)
-            cursor.close()
-            return result
+            if path == '/':
+                result = self._process(req, cursor, data)
+                return result
 
-        else:
-            cursor.close()
-            raise ValueError, "unknown path '%s'" % path
+            elif path == '/schema':
+                result = self._process_schema(req, cursor, data)
+                return result
+
+            else:
+                raise ValueError, "unknown path '%s'" % path
 
     def _process(self, req, cursor, data):
 
@@ -176,11 +197,14 @@ class TracSqlPlugin(Component):
             format['base_rev'] = format['rev']
             format['changetime'] = format['time']
 
+            from trac.web.chrome import web_context
+            context = web_context(req)
+
+            from trac.mimeview.api import Mimeview
+            mimeview = Mimeview(self.env)
+
             def format_wiki_text(text):
-                from trac.mimeview.api import Mimeview
-                mimeview = Mimeview(self.env)
-                mimetype = 'text/x-trac-wiki'
-                return mimeview.render(req, mimetype, text)
+                return mimeview.render(context, 'text/x-trac-wiki', text)
 
             if re.search('.*from wiki.*', sql, re.IGNORECASE|re.MULTILINE):
                 format['name'] = lambda x: html.A(x, href=req.href.wiki(x))
