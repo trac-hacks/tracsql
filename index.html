@@ -2,9 +2,9 @@
 <html>
 
   <head>
-    <meta charset='utf-8' />
-    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
-    <meta name="description" content="TracSQL : Plugin to perform SQL queries on the project database for Trac." />
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="description" content="TracSQL : Plugin to perform SQL queries on the project database for Trac.">
 
     <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
 
@@ -31,7 +31,8 @@
     <!-- MAIN CONTENT -->
     <div id="main_content_wrap" class="outer">
       <section id="main_content" class="inner">
-        <h1>TracSQL</h1>
+        <h1>
+<a id="tracsql" class="anchor" href="#tracsql" aria-hidden="true"><span class="octicon octicon-link"></span></a>TracSQL</h1>
 
 <p>The TracSQL project is a plugin for the Trac project management tool.</p>
 
@@ -45,11 +46,14 @@ supports interacting with the project database.</p>
 <li>view results as raw or formatted (and hyper-linked) output</li>
 <li>export result set in CSV</li>
 <li>browse the database schema (including table and index information)</li>
-</ul><p>This plugin supports Trac installations with <strong>SQLite</strong>, <strong>MySQL</strong>, and
+</ul>
+
+<p>This plugin supports Trac installations with <strong>SQLite</strong>, <strong>MySQL</strong>, and
 <strong>PostgreSQL</strong> database backends (although your raw queries may need to be
 written differently according to which SQL database is being used).</p>
 
-<h2>Installation</h2>
+<h2>
+<a id="installation" class="anchor" href="#installation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Installation</h2>
 
 <p>The TracSQL plugin can be installed using standard:</p>
 
@@ -61,13 +65,13 @@ written differently according to which SQL database is being used).</p>
 <pre><code>python setup.py install
 </code></pre>
 
-<h2>Configuration</h2>
+<h2>
+<a id="configuration" class="anchor" href="#configuration" aria-hidden="true"><span class="octicon octicon-link"></span></a>Configuration</h2>
 
 <p>It is configured in the <code>trac.ini</code> file by enabling and configuring:</p>
 
-<div class="highlight"><pre><span class="k">[components]</span>
-<span class="na">tracsql.*</span> <span class="o">=</span> <span class="s">enabled</span>
-</pre></div>
+<div class="highlight highlight-ini"><pre><span class="pl-en">[components]</span>
+tracsql.* = enabled</pre></div>
 
 <p>The <code>TRAC_ADMIN</code> permission is used to control access to the query pages.</p>
 
@@ -75,11 +79,11 @@ written differently according to which SQL database is being used).</p>
 external database, set the <code>database</code> parameter in the <code>tracsql</code> section
 of the <code>trac.ini</code> file to a valid database connection string:</p>
 
-<div class="highlight"><pre><span class="k">[tracsql]</span>
-<span class="na">database</span> <span class="o">=</span> <span class="s">sqlite:db/external.db</span>
-</pre></div>
+<div class="highlight highlight-ini"><pre><span class="pl-en">[tracsql]</span>
+<span class="pl-k">database</span> = sqlite:db/external.db</pre></div>
 
-<h1>Examples</h1>
+<h1>
+<a id="examples" class="anchor" href="#examples" aria-hidden="true"><span class="octicon octicon-link"></span></a>Examples</h1>
 
 <p>Some screensots, showing a few of the features:</p>
 
@@ -93,7 +97,7 @@ of the <code>trac.ini</code> file to a valid database connection string:</p>
     <div id="footer_wrap" class="outer">
       <footer class="inner">
         <p class="copyright">TracSQL maintained by <a href="https://github.com/mrjbq7">mrjbq7</a></p>
-        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+        <p>Published with <a href="https://pages.github.com">GitHub Pages</a></p>
       </footer>
     </div>
 
