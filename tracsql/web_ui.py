@@ -8,6 +8,7 @@ from contextlib import contextmanager
 import trac
 from trac.core import *
 from trac.db.api import DatabaseManager
+from trac.mimeview.api import Mimeview
 from trac.util.html import html
 from trac.web import IRequestHandler
 from trac.web.chrome import INavigationContributor, ITemplateProvider
@@ -36,6 +37,14 @@ def old_db_transaction(db):
             db.rollback()
     finally:
         db.close()
+
+# In version 1.0, the rendering context for a request changed.
+# This provides a backwards compatible way to get it.
+try:
+    from trac.web.chrome import web_context as get_context
+except ImportError:
+    from trac.mimeview import Context
+    get_context = Context.from_request
 
 
 class TracSqlPlugin(Component):
@@ -197,10 +206,8 @@ class TracSqlPlugin(Component):
             format['base_rev'] = format['rev']
             format['changetime'] = format['time']
 
-            from trac.web.chrome import web_context
-            context = web_context(req)
+            context = get_context(req)
 
-            from trac.mimeview.api import Mimeview
             mimeview = Mimeview(self.env)
 
             def format_wiki_text(text):
