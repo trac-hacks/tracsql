@@ -17,12 +17,12 @@ This plugin supports Trac installations with **SQLite**, **MySQL**, and
 written differently according to which SQL database is being used).
 
 
-# Installation
+## Installation
 
 The TracSQL plugin can be installed using standard:
 
 ```
-$ easy_install tracsql
+$ pip install tracsql
 ```
 
 Or, grab the sources and build using:
@@ -31,7 +31,7 @@ Or, grab the sources and build using:
 $ python setup.py install
 ```
 
-# Configuration
+## Configuration
 
 It is configured in the ``trac.ini`` file by enabling and configuring:
 
@@ -55,6 +55,6 @@ database = sqlite:db/external.db
 
 Some screensots, showing a few of the features:
 
-![SQL Query](tracsql/raw/master/docs/sql-query.png)
+![SQL Query](https://github.com/trac-hacks/tracsql/raw/master/docs/sql-query.png)
 
-![SQL Schema](tracsql/raw/master/docs/sql-schema.png)
+![SQL Schema](https://github.com/trac-hacks/tracsql/raw/master/docs/sql-schema.png)
