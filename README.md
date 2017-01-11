@@ -1,16 +1,17 @@
 # TracSQL
 
-The TracSQL project is a plugin for the Trac project management tool.
+The TracSQL project is a plugin for the [trac](https://trac.edgewall.org/)
+project management tool.
 
 A "SQL" tab is added to the Trac project.  Inside this tab, the plugin
 supports interacting with the project database.
 
 Some features include:
 
-* perform queries on the project database
-* view results as raw or formatted (and hyper-linked) output
-* export result set in CSV
-* browse the database schema (including table and index information)
+* Perform queries on the project database
+* View results as raw or formatted (and hyper-linked) output
+* Export result set in CSV
+* Browse the database schema (including table and index information)
 
 This plugin supports Trac installations with **SQLite**, **MySQL**, and
 **PostgreSQL** database backends (although your raw queries may need to be
